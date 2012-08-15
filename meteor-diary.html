@@ -1,0 +1,103 @@
+<head>
+		<title>Meteor Diary App</title>
+		<script type="text/javascript" src="jquery.truncate.js"></script>
+		<link rel="stylesheet" type="text/css" href="wysihtml5/css/bootstrap-wysihtml5.css"></link>
+		<script src="wysihtml5/js/wysihtml5-0.3.0.js"></script>
+		<script src="wysihtml5/js/bootstrap-wysihtml5.js"></script>		
+</head>
+
+<body>
+	{{> messages}}
+	{{> modal}}
+</body>
+
+<template name="messages">
+  <div class="container-fluid inner-shadow" id="header">
+  	<div class="row-fluid" >
+  		<div class="span2"></div>
+  		<div class="span8">
+  			<h1>meteor.diary</h1>
+  			<p><span class="badge badge-warning">{{messages_count}}</span> entries created till now! Do more!</p>
+  		</div>
+  		<div class="span2"></div>
+  	</div>
+  </div>	
+  <div class="container-fluid">
+  	<div class="row-fluid">
+  		<div class="span2"></div>
+  		<div class="span8">
+	    <section class="well shadow">
+	    	<div class="navbar">
+			  <div class="navbar-inner">
+			    <div class="container">
+			    	<ul class="nav">
+			    	  <li class="divider-vertical"></li>
+					  <li>
+					    <a href="#"><i class="icon-time icon-white"></i></a>
+					  </li>
+					  <li class="divider-vertical"></li>
+					  <li>
+					    <a href="#"><i class="icon-book icon-white"></i></a>
+					  </li>
+					  <li class="divider-vertical"></li>
+					</ul>
+			    </div>
+			  </div>
+			</div>
+			<div id="input-area">
+	    		<textarea id="new-message" placeholder="New message" class="span12"></textarea>
+	    		<button class="btn btn-primary pull-right" id="tell-message" type="button">Tell your story...</button>
+	    	</div>
+	    	<div>
+			  {{#each messages}}
+			  		{{> message_info}}
+			  {{/each}} 
+			</div>
+		  <p>Thanks to twitter's bootstrap!</p>      
+	    </section>
+  		</div>
+	    <div class="span2"></div>
+	</div>
+  </div>
+
+</template>
+
+<template name="message_info">
+	    <article class="row-fluid">
+	      <div class="span2">
+	      	<time datetime="{{created_at}}" pubdate>{{day_is created_at}}</time>
+		  </div>
+	      <div class="span9">	
+	          {{#if truncate message}}
+	          		<p class="message_text">{{truncate message}}</p>
+			  		<button class="btn more">mehr...</button>
+			  {{else}}
+			  		<p class="message_text">{{message}}</p>
+			  {{/if}}	 
+	          <footer>
+				{{#if rate}}
+			  		<span class="badge badge-success">{{rate}}</span> loves this
+			  	{{/if}}	          	
+          	  </footer>
+          </div>
+          <div class="span1">
+			 <button class="btn delete"><i class="icon-trash"></i></button>
+			 <button class="btn rate"><i class="icon-thumbs-up"></i></button>
+          </div>
+        </article>
+</template>
+
+<template name="modal">
+	<div class="modal hide" id="moreModal">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal">×</button>
+	    <h3>more...</h3>
+	  </div>
+	  <div class="modal-body">
+	    <p>{{message}}</p>
+	  </div>
+	  <div class="modal-footer">
+	    <a href="#" class="btn" data-dismiss="modal">Close</a>
+	  </div>
+	</div>
+</template>
