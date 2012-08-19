@@ -1,5 +1,6 @@
 Messages = new Meteor.Collection("messages");
 
+
 // ID selected Message
 Session.set('message_id', null);
 
@@ -82,9 +83,25 @@ Template.message_info.events = {
     return Messages.find({}).count();
   };
 
+  Template.messages.all_month = function() {
+    d_tmp = ""
+    var tmp = Messages.find({}, {sort: {created_at: -1}});
+    all_month = new Array()
+    tmp.forEach(function(m){
+      var d = new Date(m.created_at).getMonth();
+      if(d_tmp != d) {
+        d_tmp = d 
+        console.log(d)
+        all_month.push({date: d})
+      }
+    })
+    return all_month;
+  }
 
-  Template.messages.messages = function() {
-    return Messages.find({}, {sort: {created_at: -1}});
+  Template.month.messages = function(year,month) {
+    var start = new Date(year, month)
+    var end = new Date(year, month+1)
+    return Messages.find({created_at: {$gte: start, $lt: end}}, {sort: {created_at: -1}});
   }
 
   Template.modal.message = function() {
@@ -108,6 +125,24 @@ Template.message_info.events = {
             });
     return truncated_message == message ? false : truncated_message
   }
+
+  Template.month.month_name = function(num) {
+    var month=new Array();
+        month[0]="January";
+        month[1]="February";
+        month[2]="March";
+        month[3]="April";
+        month[4]="May";
+        month[5]="June";
+        month[6]="July";
+        month[7]="August";
+        month[8]="September";
+        month[9]="October";
+        month[10]="November";
+        month[11]="December";
+        return month[num];
+  }
+
   Template.messages.add_my_special_behavior = function () {
     Meteor.defer(function () {
       $("#new-message").wysihtml5();

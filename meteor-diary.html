@@ -50,9 +50,9 @@
 	    		{{add_my_special_behavior}}
 	    	</div>
 	    	<div>
-			  {{#each messages}}
-			  		{{> message_info}}
-			  {{/each}} 
+			  {{#each all_month}}
+			  		{{> month}}
+			  {{/each}}	    		
 			</div>
 		  <p>Thanks to twitter's bootstrap!</p>      
 	    </section>
@@ -61,6 +61,13 @@
 	</div>
   </div>
 
+</template>
+
+<template name="month">
+	<h2>{{month_name date}} 2012</h2>
+	{{#each messages 2012 date}}
+		{{> message_info}}
+	{{/each}} 
 </template>
 
 <template name="message_info">
