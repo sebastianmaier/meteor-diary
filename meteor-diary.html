@@ -47,6 +47,7 @@
 			<div id="input-area">
 	    		<textarea id="new-message" placeholder="New message" class="span12"></textarea>
 	    		<button class="btn btn-primary pull-right" id="tell-message" type="button">Tell your story...</button>
+	    		{{add_my_special_behavior}}
 	    	</div>
 	    	<div>
 			  {{#each messages}}
@@ -69,10 +70,10 @@
 		  </div>
 	      <div class="span9">	
 	          {{#if truncate message}}
-	          		<p class="message_text">{{truncate message}}</p>
+	          		<p class="message_text">{{{truncate message}}}</p>
 			  		<button class="btn more">mehr...</button>
 			  {{else}}
-			  		<p class="message_text">{{message}}</p>
+			  		<p class="message_text">{{{message}}}</p>
 			  {{/if}}	 
 	          <footer>
 				{{#if rate}}
@@ -94,7 +95,7 @@
 	    <h3>more...</h3>
 	  </div>
 	  <div class="modal-body">
-	    <p>{{message}}</p>
+	    <p>{{{message}}}</p>
 	  </div>
 	  <div class="modal-footer">
 	    <a href="#" class="btn" data-dismiss="modal">Close</a>

@@ -5,10 +5,6 @@ Session.set('message_id', null);
 
 if (Meteor.is_client) {
 
-  Meteor.startup(function () {
-    $("#new-message").wysihtml5();
-  });  
-
   ////////// Helpers for in-place editing //////////
 
   // Returns an event_map key for attaching "ok/cancel" events to
@@ -52,16 +48,19 @@ if (Meteor.is_client) {
 ///////////// Messages ////////////////////
 Template.messages.events = {};
 
+Template.messages.events = {
+    'click #tell-message': function () {
+      Messages.insert({
+        message: $("#new-message").val(),
+        created_at: new Date()
+      });
+      $("#new-message").val('');
+  }
+}
+
 Template.message_info.events = {
   'click .delete': function () {
     Messages.remove(this._id);
-  },
-  'click #tell-message': function () {
-      Messages.insert({
-        message: message,
-        created_at: new Date()
-      });
-      evt.target.value = '';
   },
   'click .more': function () {
     Session.set('message_id', this._id);
@@ -99,6 +98,9 @@ Template.message_info.events = {
   Template.message_info.day_is = function (date) {
     return (new Date(date)).getDate();
   }
+  Template.message_info.raw = function(html) {
+    return $('<div />').html(html).text();
+  }
   Template.message_info.truncate = function (message) {
     var truncated_message = jQuery.truncate(message, {
               length: 200,
@@ -106,6 +108,12 @@ Template.message_info.events = {
             });
     return truncated_message == message ? false : truncated_message
   }
+  Template.messages.add_my_special_behavior = function () {
+    Meteor.defer(function () {
+      $("#new-message").wysihtml5();
+    });
+    // return nothing
+  }; 
 }
 
 if (Meteor.is_server) {
